@@ -56,12 +56,14 @@ Run the following command
 
 ```
 node check.js <row in expected.txt to start from>
-``
+```
 
 Ex:
+
 ```
 
 node check.js 0
 ``
 
 if starting from row 0 in `expected.txt`
+```
