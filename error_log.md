@@ -336,8 +336,8 @@ Got:
 
 #### Description of failure
 
-- Instruction `ADD HL,SP`, op-code `0x39`, did not set the H flag
+- Instruction `ADD HL,s8`, op-code `0xE8`, did not set the H flag
 
 #### Actual reason
 
--
+- The C and H flag is set from the lower byte, instad of the higher byte in. This is the oposite done for `ADD HL, REG`
