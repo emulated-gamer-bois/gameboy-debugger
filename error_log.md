@@ -1,5 +1,7 @@
 # Comparing the outputs of rust gb emulator with ours
 
+# Debugging with test ROM `03-op sp,hl.gb`
+
 ### Test no.: 1
 
 #### Date: 2021-02-27
@@ -341,3 +343,35 @@ Got:
 #### Actual reason
 
 - The C and H flag is set from the lower byte, instad of the higher byte in. This is the oposite done for `ADD HL, REG`
+
+# Debugging with test ROM `04-op r,imm.gb`
+
+## Error no.: 10
+
+#### Date: 2021-03-02
+
+#### Line: 1092494
+
+#### Fixed: False
+
+Expected:
+
+```
+    PC:0xdef9,SP:0xdff1,OP:0xde,OP+1:0xff,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b0001,
+    PC:0xdefb,SP:0xdff1,OP:0x0,OP+1:0xc3,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b1111,
+```
+
+Got:
+
+```
+    PC:0xdef9,SP:0xdff1,OP:0xde,OP+1:0xff,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b0001,
+    PC:0xdefb,SP:0xdff1,OP:0x0,OP+1:0xc3,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b1110,
+```
+
+#### Description of failure
+
+- Instruction `SBC A, d8`, op-code `0xDE`, did not set the C flag
+
+#### Actual reason
+
+-
