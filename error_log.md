@@ -1,3 +1,17 @@
+# Status
+
+- 01 - Passed
+- 02 - Failed - EI
+- 03 - Passed
+- 04 - Passed
+- 05 - Passed
+- 06 - Passed
+- 07 - Passed
+- 08 - Passed
+- 09 - Failed
+- 10 - Failed
+- 11 - Failed
+
 # Comparing the outputs of rust gb emulator with ours
 
 # Debugging with test ROM `03-op sp,hl.gb`
