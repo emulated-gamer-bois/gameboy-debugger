@@ -375,3 +375,35 @@ Got:
 #### Actual reason
 
 - `twosComp8` returns `0x200` for the input `0x100` which is correct if you are only looking on the 8 least significant bits, bit it causes an error in `setCFlag` since it checks if `(a + b) > 0xFF` instead of `(a + b) & 0x100`
+
+# Debugging with test ROM `01-special.gb`
+
+## Error no.: 11
+
+#### Date: 2021-03-04
+
+#### Line: 171208
+
+#### Fixed: True
+
+Expected:
+
+```
+    PC:0xc321,SP:0xdffb,OP:0xd1,OP+1:0x79,A:0x13,BC:0x1301,DE:0x1200,HL:0xc304,F:0b0000,
+    PC:0xc322,SP:0xdffd,OP:0x79,OP+1:0xe6,A:0x13,BC:0x1301,DE:0x1300,HL:0xc304,F:0b0000,
+```
+
+Got:
+
+```
+    PC:0xc321,SP:0xdffb,OP:0xd1,OP+1:0x79,A:0x13,BC:0x1301,DE:0x1200,HL:0xc304,F:0b0000,
+    PC:0xc322,SP:0xdffd,OP:0x79,OP+1:0xe6,A:0x13,BC:0x1301,DE:0x1301,HL:0xc304,F:0b0000,
+```
+
+#### Description of failure
+
+- Instruction `POP DE`, op-code `0xD1`, loaded `DE` with `0x1301` instead of `0x1300`
+
+#### Actual reason
+
+- `PUSH AF` pushes trash value of `F`
