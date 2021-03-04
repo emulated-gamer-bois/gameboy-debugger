@@ -352,7 +352,7 @@ Got:
 
 #### Line: 1092494
 
-#### Fixed: False
+#### Fixed: True
 
 Expected:
 
@@ -374,4 +374,4 @@ Got:
 
 #### Actual reason
 
--
+- `twosComp8` returns `0x200` for the input `0x100` which is correct if you are only looking on the 8 least significant bits, bit it causes an error in `setCFlag` since it checks if `(a + b) > 0xFF` instead of `(a + b) & 0x100`
