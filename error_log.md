@@ -9,7 +9,7 @@
 - 07 - Passed
 - 08 - Passed
 - 09 - Passed
-- 10 - Failed
+- 10 - Passed
 - 11 - Failed
 
 # Comparing the outputs of rust gb emulator with ours
