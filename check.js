@@ -10,7 +10,7 @@ var fail = false;
 for (var i = 0; i < got.length - 1; i++) {
   if (got[i] == "#") continue;
   if (got[i] !== expected[i + startAt]) {
-    console.log("Failed at line: ", i - 2 + startAt);
+    console.log("Failed at line: ", i + startAt);
     console.log(
       "Expected: \n",
       expected[i + startAt - 1],
@@ -26,15 +26,3 @@ for (var i = 0; i < got.length - 1; i++) {
 if (!fail) {
   console.log("Success");
 }
-
-/**
- * 
-fs.readFile("tmp.txt", (err, file) => {
-  if (err) {
-    console.log("Could not read tmp file");
-    return;
-  }
-  
-});
-
- */
