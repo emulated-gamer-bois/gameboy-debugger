@@ -1,4 +1,20 @@
+# Status
+
+- 01 - Passed
+- 02 - Failed - EI
+- 03 - Passed
+- 04 - Passed
+- 05 - Passed
+- 06 - Passed
+- 07 - Passed
+- 08 - Passed
+- 09 - Passed
+- 10 - Passed
+- 11 - Failed
+
 # Comparing the outputs of rust gb emulator with ours
+
+# Debugging with test ROM `03-op sp,hl.gb`
 
 ### Test no.: 1
 
@@ -341,3 +357,67 @@ Got:
 #### Actual reason
 
 - The C and H flag is set from the lower byte, instad of the higher byte in. This is the oposite done for `ADD HL, REG`
+
+# Debugging with test ROM `04-op r,imm.gb`
+
+## Error no.: 10
+
+#### Date: 2021-03-02
+
+#### Line: 1092494
+
+#### Fixed: True
+
+Expected:
+
+```
+    PC:0xdef9,SP:0xdff1,OP:0xde,OP+1:0xff,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b0001,
+    PC:0xdefb,SP:0xdff1,OP:0x0,OP+1:0xc3,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b1111,
+```
+
+Got:
+
+```
+    PC:0xdef9,SP:0xdff1,OP:0xde,OP+1:0xff,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b0001,
+    PC:0xdefb,SP:0xdff1,OP:0x0,OP+1:0xc3,A:0x0,BC:0x1234,DE:0x5678,HL:0xdef4,F:0b1110,
+```
+
+#### Description of failure
+
+- Instruction `SBC A, d8`, op-code `0xDE`, did not set the C flag
+
+#### Actual reason
+
+- `twosComp8` returns `0x200` for the input `0x100` which is correct if you are only looking on the 8 least significant bits, bit it causes an error in `setCFlag` since it checks if `(a + b) > 0xFF` instead of `(a + b) & 0x100`
+
+# Debugging with test ROM `01-special.gb`
+
+## Error no.: 11
+
+#### Date: 2021-03-04
+
+#### Line: 171208
+
+#### Fixed: True
+
+Expected:
+
+```
+    PC:0xc321,SP:0xdffb,OP:0xd1,OP+1:0x79,A:0x13,BC:0x1301,DE:0x1200,HL:0xc304,F:0b0000,
+    PC:0xc322,SP:0xdffd,OP:0x79,OP+1:0xe6,A:0x13,BC:0x1301,DE:0x1300,HL:0xc304,F:0b0000,
+```
+
+Got:
+
+```
+    PC:0xc321,SP:0xdffb,OP:0xd1,OP+1:0x79,A:0x13,BC:0x1301,DE:0x1200,HL:0xc304,F:0b0000,
+    PC:0xc322,SP:0xdffd,OP:0x79,OP+1:0xe6,A:0x13,BC:0x1301,DE:0x1301,HL:0xc304,F:0b0000,
+```
+
+#### Description of failure
+
+- Instruction `POP DE`, op-code `0xD1`, loaded `DE` with `0x1301` instead of `0x1300`
+
+#### Actual reason
+
+- `PUSH AF` pushes trash value of `F`

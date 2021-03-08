@@ -37,31 +37,28 @@ let mut flags = 0;
 
 ```
 
-- Modify file `gameboy_opengl/src/bin/gameboy_emulator.rs` such that the variable `rom_filename` has the path to the ROM you are trying to use
 - Execute the following command in the `gameboy_emulator` root folder
 
 ```sh
-    cargo run --package gameboy_opengl > ../gamyboy-debugger/expected.txt
+    cargo run --package gameboy_opengl -- [path to test rom] > ../gamyboy-debugger/expected.txt
 ```
 
 ### Create the file `got.txt`
 
 Print the state of the emulator you are trying to debug before each CPU instructions is executed in the same format as above
 
-### Run the script
+### Run the check script
 
 If you have not already, install [NodeJs](https://nodejs.org/en/)
 
 Run the following command
 
-```
-node check.js <row in expected.txt to start from>
-```
-
-Ex:
-
-```
-node check.js 0
+```sh
+    node check.js
 ```
 
-if starting from row 0 in `expected.txt`
+The script may fail if the putout files are too large, in that case you may run the `check.go` file instead with the following command (requires installing [go](https://golang.org/doc/install))
+
+```sh
+    go run ./check.go
+```
